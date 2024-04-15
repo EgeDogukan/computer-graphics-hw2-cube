@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		67EEFD1A2BCD825700117FF4 /* main_fixedAxis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67EEFD172BCD825700117FF4 /* main_fixedAxis.cpp */; };
+		67EEFD232BCD834F00117FF4 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 67EEFD1B2BCD834E00117FF4 /* Makefile */; };
+		67EEFD242BCD834F00117FF4 /* InitShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67EEFD212BCD834F00117FF4 /* InitShader.cpp */; };
+		67EEFD272BCD844100117FF4 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67EEFD262BCD844100117FF4 /* OpenGL.framework */; };
+		67EEFD292BCD848000117FF4 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 67EEFD282BCD848000117FF4 /* libglfw.3.3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +32,17 @@
 		67EEFD172BCD825700117FF4 /* main_fixedAxis.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main_fixedAxis.cpp; path = ../../main_fixedAxis.cpp; sourceTree = "<group>"; };
 		67EEFD182BCD825700117FF4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../../README.md; sourceTree = "<group>"; };
 		67EEFD192BCD825700117FF4 /* vshader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = vshader.glsl; path = ../../vshader.glsl; sourceTree = "<group>"; };
+		67EEFD1B2BCD834E00117FF4 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = ../../Makefile; sourceTree = "<group>"; };
+		67EEFD1C2BCD834E00117FF4 /* mat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mat.h; path = ../../mat.h; sourceTree = "<group>"; };
+		67EEFD1D2BCD834F00117FF4 /* Angel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Angel.h; path = ../../Angel.h; sourceTree = "<group>"; };
+		67EEFD1E2BCD834F00117FF4 /* CheckError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckError.h; path = ../../CheckError.h; sourceTree = "<group>"; };
+		67EEFD1F2BCD834F00117FF4 /* vec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vec.h; path = ../../vec.h; sourceTree = "<group>"; };
+		67EEFD202BCD834F00117FF4 /* vertices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vertices.h; path = ../../vertices.h; sourceTree = "<group>"; };
+		67EEFD212BCD834F00117FF4 /* InitShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InitShader.cpp; path = ../../InitShader.cpp; sourceTree = "<group>"; };
+		67EEFD222BCD834F00117FF4 /* patches.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = patches.h; path = ../../patches.h; sourceTree = "<group>"; };
+		67EEFD262BCD844100117FF4 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		67EEFD282BCD848000117FF4 /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = ../../../../../usr/local/Cellar/glfw/3.3.10/lib/libglfw.3.3.dylib; sourceTree = "<group>"; };
+		67EEFD2A2BCD85F000117FF4 /* COMP410-HW2.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "COMP410-HW2.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +50,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67EEFD292BCD848000117FF4 /* libglfw.3.3.dylib in Frameworks */,
+				67EEFD272BCD844100117FF4 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +63,7 @@
 			children = (
 				67EEFD0E2BCD821600117FF4 /* COMP410-HW2 */,
 				67EEFD0D2BCD821600117FF4 /* Products */,
+				67EEFD252BCD844100117FF4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,12 +78,30 @@
 		67EEFD0E2BCD821600117FF4 /* COMP410-HW2 */ = {
 			isa = PBXGroup;
 			children = (
+				67EEFD2A2BCD85F000117FF4 /* COMP410-HW2.entitlements */,
+				67EEFD1D2BCD834F00117FF4 /* Angel.h */,
+				67EEFD1E2BCD834F00117FF4 /* CheckError.h */,
+				67EEFD212BCD834F00117FF4 /* InitShader.cpp */,
+				67EEFD1B2BCD834E00117FF4 /* Makefile */,
+				67EEFD1C2BCD834E00117FF4 /* mat.h */,
+				67EEFD222BCD834F00117FF4 /* patches.h */,
+				67EEFD1F2BCD834F00117FF4 /* vec.h */,
+				67EEFD202BCD834F00117FF4 /* vertices.h */,
 				67EEFD162BCD825700117FF4 /* fshader.glsl */,
 				67EEFD172BCD825700117FF4 /* main_fixedAxis.cpp */,
 				67EEFD182BCD825700117FF4 /* README.md */,
 				67EEFD192BCD825700117FF4 /* vshader.glsl */,
 			);
 			path = "COMP410-HW2";
+			sourceTree = "<group>";
+		};
+		67EEFD252BCD844100117FF4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				67EEFD282BCD848000117FF4 /* libglfw.3.3.dylib */,
+				67EEFD262BCD844100117FF4 /* OpenGL.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,6 +161,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67EEFD232BCD834F00117FF4 /* Makefile in Sources */,
+				67EEFD242BCD834F00117FF4 /* InitShader.cpp in Sources */,
 				67EEFD1A2BCD825700117FF4 /* main_fixedAxis.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -180,6 +218,7 @@
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
@@ -235,6 +274,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
@@ -250,9 +290,14 @@
 		67EEFD142BCD821600117FF4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "COMP410-HW2/COMP410-HW2.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5B7XTAK58K;
 				ENABLE_HARDENED_RUNTIME = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/glfw/3.3.10/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -260,9 +305,14 @@
 		67EEFD152BCD821600117FF4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "COMP410-HW2/COMP410-HW2.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5B7XTAK58K;
 				ENABLE_HARDENED_RUNTIME = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/glfw/3.3.10/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
