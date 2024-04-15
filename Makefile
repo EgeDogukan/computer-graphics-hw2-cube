@@ -5,13 +5,13 @@ CPP = g++
 CPP_FLAGS = -g -Wall -Wextra -std=c++11 -w
 
 # Include directories
-INCLUDES = -I../include
+INCLUDES = -I../include -I/opt/homebrew/Cellar/glfw/3.4/include -I/opt/homebrew/Cellar/glew/2.2.0_1/include
 
 # Libraries
-LIBS = -lGLEW -lglfw -framework OpenGL
+LIBS = -lGLEW -lglfw -framework OpenGL -L/opt/homebrew/Cellar/glfw/3.4/lib -L/opt/homebrew/Cellar/glew/2.2.0_1/lib
 
 # Source
-SRCS = main.cpp InitShader.cpp
+SRCS = main_fixedAxis.cpp InitShader.cpp
 
 #
 OBJS = $(SRCS:.cpp=.o)
