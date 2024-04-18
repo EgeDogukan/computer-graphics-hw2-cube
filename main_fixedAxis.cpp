@@ -11,26 +11,42 @@ const int NumVertices = 36; //(6 faces)(2 triangles/face)(3 vertices/triangle)
 
 // Vertices of a unit cube centered at origin, sides aligned with axes
 point4 points[8] = {
-    point4( -0.5, -0.5,  0.5, 1.0 ),
-    point4( -0.5,  0.5,  0.5, 1.0 ),
-    point4(  0.5,  0.5,  0.5, 1.0 ),
-    point4(  0.5, -0.5,  0.5, 1.0 ),
-    point4( -0.5, -0.5, -0.5, 1.0 ),
-    point4( -0.5,  0.5, -0.5, 1.0 ),
-    point4(  0.5,  0.5, -0.5, 1.0 ),
-    point4(  0.5, -0.5, -0.5, 1.0 )
+    point4( -0.49, -0.49,  0.49, 1.0 ),
+    point4( -0.49,  0.49,  0.49, 1.0 ),
+    point4(  0.49,  0.49,  0.49, 1.0 ),
+    point4(  0.49, -0.49,  0.49, 1.0 ),
+    point4( -0.49, -0.49, -0.49, 1.0 ),
+    point4( -0.49,  0.49, -0.49, 1.0 ),
+    point4(  0.49,  0.49, -0.49, 1.0 ),
+    point4(  0.49, -0.49, -0.49, 1.0 )
 };
 
 // RGBA olors
-color4 colors[8] = {
-    color4( 0.0, 0.0, 0.0, 1.0 ),  // black
-    color4( 1.0, 0.0, 0.0, 1.0 ),  // red
-    color4( 1.0, 1.0, 0.0, 1.0 ),  // yellow
-    color4( 0.0, 1.0, 0.0, 1.0 ),  // green
-    color4( 0.0, 0.0, 1.0, 1.0 ),  // blue
-    color4( 1.0, 0.0, 1.0, 1.0 ),  // magenta
-    color4( 1.0, 1.0, 1.0, 1.0 ),  // white
-    color4( 0.0, 1.0, 1.0, 1.0 )   // cyan
+color4 colors[NumVertices] = {
+    color4(1.0, 0.0, 0.0, 1.0),  // red
+    color4(1.0, 0.0, 0.0, 1.0),  // red
+    color4(1.0, 0.0, 0.0, 1.0),  // red
+    color4(1.0, 0.0, 0.0, 1.0),  // red
+    color4(0.0, 1.0, 0.0, 1.0),  // green
+    color4(0.0, 1.0, 0.0, 1.0),  // green
+    color4(0.0, 1.0, 0.0, 1.0),  // green
+    color4(0.0, 1.0, 0.0, 1.0),  // green
+    color4(0.0, 0.0, 1.0, 1.0),  // blue
+    color4(0.0, 0.0, 1.0, 1.0),  // blue
+    color4(0.0, 0.0, 1.0, 1.0),  // blue
+    color4(0.0, 0.0, 1.0, 1.0),  // blue
+    color4(1.0, 1.0, 1.0, 1.0),  // white
+    color4(1.0, 1.0, 1.0, 1.0),  // white
+    color4(1.0, 1.0, 1.0, 1.0),  // white
+    color4(1.0, 1.0, 1.0, 1.0),  // white
+    color4(1.0, 1.0, 0.0, 1.0),  // yellow
+    color4(1.0, 1.0, 0.0, 1.0),  // yellow
+    color4(1.0, 1.0, 0.0, 1.0),  // yellow
+    color4(1.0, 1.0, 0.0, 1.0),  // yellow
+    color4(1.0, 0.647, 0.0, 1.0),  // orange
+    color4(1.0, 0.647, 0.0, 1.0),  // orange
+    color4(1.0, 0.647, 0.0, 1.0),  // orange
+    color4(1.0, 0.647, 0.0, 1.0),  // orange
 };
 
 // Array of rotation angles (in degrees) for each coordinate axis
@@ -40,7 +56,69 @@ GLfloat  Theta[NumAxes] = { 0.0, 0.0, 0.0 };
 
 // Model-view and projection matrices uniform location
 GLuint  ModelView, Projection;
-mat4  model_view;
+const int NumCubes = 8;
+mat4 model_views[NumCubes];
+double angles[3] = {0, 45, 45};
+
+int faces[6][4];
+double positionValues[NumCubes][3] = {
+    {0.5,0.5,0.5},
+    {0.5,0.5,-0.5},
+    {0.5,-0.5,0.5},
+    {0.5,-0.5,-0.5},
+    {-0.5,0.5,0.5},
+    {-0.5,0.5,-0.5},
+    {-0.5,-0.5,0.5},
+    {-0.5,-0.5,-0.5}
+};
+int positionFaceRepresentations[NumCubes][3] = { // 1 front, 2 right, 3 back, 4 left, 5 top, 6 bottom
+    {1,2,5},
+    {2,3,5},
+    {1,2,6},
+    {2,3,6},
+    {1,4,5},
+    {3,4,5},
+    {1,4,6},
+    {3,4,6},
+};
+
+mat4 getGlobalView() {
+    mat4 global_view = RotateX(angles[0]) * RotateY(angles[1]) * RotateZ(angles[2]);
+    return global_view;
+}
+
+mat4 getInverseGlobalView() {
+    mat4 inverse_global_view = RotateZ(-angles[2]) * RotateY(-angles[1]) * RotateX(-angles[0]);
+    return inverse_global_view;
+}
+
+void setFaces() {
+    double positions[NumCubes][3];
+    for(int i = 0; i < NumCubes; i++) {
+        for(int j = 0; j < 3; j++) {
+            mat4 temp_view = getInverseGlobalView() * model_views[i];
+            std::cout << temp_view, "\n";
+            positions[i][j] = temp_view[j][3];
+        }
+    }
+    
+    int faceIndexes[8] = {0};
+    
+    for(int i = 0; i < NumCubes; i++) {
+        for(int j = 0; j < NumCubes; j++) {
+            if(abs(positions[i][0]-positionValues[j][0]) < 0.5 &&
+               abs(positions[i][1]-positionValues[j][1]) < 0.5 &&
+               abs(positions[i][2]-positionValues[j][2]) < 0.5) {
+                for(int face: positionFaceRepresentations[j]) {
+                    faces[face][faceIndexes[face]++] = i;
+                }
+            }
+        }
+    }
+}
+
+GLuint program;
+
 
 //---------------------------------------------------------------------
 //
@@ -59,7 +137,7 @@ init()
     glBufferSubData( GL_ARRAY_BUFFER, sizeof(points), sizeof(colors), colors );
 
     // Load shaders and use the resulting shader program
-    GLuint program = InitShader( "vshader.glsl", "fshader.glsl" );
+    program = InitShader( "vshader.glsl", "fshader.glsl" );
     glUseProgram( program );
 
     // Create a vertex array object
@@ -103,16 +181,20 @@ init()
     
     // Set projection matrix
     mat4  projection;
-    projection = Ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0); // Ortho(): user-defined function in mat.h
+    projection = Ortho(-2.0, 2.0, -2.0, 2.0, -2.0, 2.0); // Ortho(): user-defined function in mat.h
     glUniformMatrix4fv( Projection, 1, GL_TRUE, projection );
     
     
     //try this for perspective projection
     //projection = Perspective( 45.0, 1.0, 0.5, 3.0 );
     //glUniformMatrix4fv( Projection, 1, GL_TRUE, projection );
+
     
-    model_view=identity();
-    //model_view= Translate(0,0,-2.5);
+    //model_view=identity();
+    for(int i = 0; i < NumCubes; i++) {
+        model_views[i]=  getGlobalView() * Translate(positionValues[i][0],positionValues[i][1],positionValues[i][2]);
+    }
+    setFaces();
     
     glEnable( GL_DEPTH_TEST );
     glClearColor( 1.0, 1.0, 1.0, 1.0 );
@@ -124,6 +206,7 @@ init()
 // display
 //
 
+
 void
 display(void)
 {
@@ -132,19 +215,24 @@ display(void)
     //  Generate the model-view matrix
     
     //use this to rotate around fixed coordinate axes
-    model_view =   RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] ) * RotateZ( Theta[Zaxis] ) * model_view ;
+    //model_view =   RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] ) * RotateZ( Theta[Zaxis] ) * model_view ;
     
     //use this to rotate around cube's own axes
     //model_view =   model_view  * RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] ) * RotateZ( Theta[Zaxis] ) ;
     
+    for(int index: faces[1]) {
+        model_views[index] = getGlobalView() * RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] ) * RotateZ( Theta[Zaxis] ) * getInverseGlobalView() * model_views[index];
+    }
+    
+    
     //try this when using perspective projection around fixed axis
     //model_view =   Translate(0,0,-2.5) * RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] ) * RotateZ( Theta[Zaxis] ) * Translate(0,0,2.5) * model_view ;
     
+    for(int i = 0; i < NumCubes; i++) {
+        glUniformMatrix4fv( ModelView, 1, GL_TRUE, model_views[i] );
+        glDrawElements(GL_TRIANGLES, NumVertices, GL_UNSIGNED_INT, 0);
+    }
     
-    glUniformMatrix4fv( ModelView, 1, GL_TRUE, model_view );
-    
-    glDrawElements(GL_TRIANGLES, NumVertices, GL_UNSIGNED_INT, 0);
-
     glFlush();
 }
 
@@ -155,6 +243,15 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         case GLFW_KEY_ESCAPE: case GLFW_KEY_Q:
             exit( EXIT_SUCCESS );
             break;
+        case GLFW_KEY_K:
+            std::cout << model_views[0], "\n";
+            std::cout << model_views[1], "\n";
+            std::cout << model_views[2], "\n";
+            std::cout << model_views[3], "\n";
+            std::cout << model_views[4], "\n";
+            std::cout << model_views[5], "\n";
+            std::cout << model_views[6], "\n";
+            std::cout << model_views[7], "\n";
     }
 }
 
