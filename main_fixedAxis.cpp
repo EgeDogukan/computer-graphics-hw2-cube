@@ -71,16 +71,27 @@ double positionValues[NumCubes][3] = {
     {-0.5,-0.5,0.5},
     {-0.5,-0.5,-0.5}
 };
-int positionFaceRepresentations[NumCubes][3] = { // 1 front, 2 right, 3 back, 4 left, 5 top, 6 bottom
+int positionFaceRepresentations[NumCubes][3] = { // 0 front, 1 right, 2 back, 3 left, 4 top, 5 bottom
+    {0,1,4},
+    {1,2,4},
+    {0,1,5},
     {1,2,5},
+    {0,3,4},
+    {2,3,4},
+    {0,3,5},
     {2,3,5},
-    {1,2,6},
-    {2,3,6},
-    {1,4,5},
-    {3,4,5},
-    {1,4,6},
-    {3,4,6},
 };
+
+double TotalRotation = 90;
+int selectedFace = 0;
+int turnDirection = 1;
+
+double mouseStartX = 0.0;
+double mouseStartY = 0.0;
+double mouseX = 0.0;
+double mouseY = 0.0;
+bool rightMouseButtonPressed = false;
+
 
 mat4 getGlobalView() {
     mat4 global_view = RotateX(angles[0]) * RotateY(angles[1]) * RotateZ(angles[2]);
@@ -97,7 +108,6 @@ void setFaces() {
     for(int i = 0; i < NumCubes; i++) {
         for(int j = 0; j < 3; j++) {
             mat4 temp_view = getInverseGlobalView() * model_views[i];
-            std::cout << temp_view, "\n";
             positions[i][j] = temp_view[j][3];
         }
     }
@@ -118,6 +128,7 @@ void setFaces() {
 }
 
 GLuint program;
+GLuint Color;
 
 
 //---------------------------------------------------------------------
@@ -128,6 +139,7 @@ GLuint program;
 void
 init()
 {
+    std::cout << " init \n";
     // Create and initialize a buffer object
     GLuint buffer;
     glGenBuffers( 1, &buffer );
@@ -173,7 +185,7 @@ init()
 
     GLuint vColor = glGetAttribLocation( program, "vColor" );
     glEnableVertexAttribArray( vColor );
-    glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(points)) );
+    glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 4, BUFFER_OFFSET(sizeof(points)) );
 
     // Retrieve transformation uniform variable locations
     ModelView = glGetUniformLocation( program, "ModelView" );
@@ -188,6 +200,8 @@ init()
     //try this for perspective projection
     //projection = Perspective( 45.0, 1.0, 0.5, 3.0 );
     //glUniformMatrix4fv( Projection, 1, GL_TRUE, projection );
+    
+    Color = glGetUniformLocation( program, "color" );
 
     
     //model_view=identity();
@@ -220,10 +234,6 @@ display(void)
     //use this to rotate around cube's own axes
     //model_view =   model_view  * RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] ) * RotateZ( Theta[Zaxis] ) ;
     
-    for(int index: faces[1]) {
-        model_views[index] = getGlobalView() * RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] ) * RotateZ( Theta[Zaxis] ) * getInverseGlobalView() * model_views[index];
-    }
-    
     
     //try this when using perspective projection around fixed axis
     //model_view =   Translate(0,0,-2.5) * RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] ) * RotateZ( Theta[Zaxis] ) * Translate(0,0,2.5) * model_view ;
@@ -236,6 +246,46 @@ display(void)
     glFlush();
 }
 
+void update()
+{
+    if (TotalRotation < 90.0) {
+        // use this to have rotation around fixed axes
+        Theta[0] = Theta[1] = Theta[2] = 0.0;
+        Theta[Axis] = 1.5 * turnDirection;
+        
+        for(int index: faces[selectedFace]) {
+            model_views[index] = getGlobalView() * RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] ) * RotateZ( Theta[Zaxis] ) * getInverseGlobalView() * model_views[index];
+        }
+        TotalRotation += 1.5;
+    }
+}
+
+void turnCube(int direction) {
+    if(selectedFace == 0 || selectedFace == 2) {
+        Axis = Zaxis;
+    }
+    else if (selectedFace == 1 || selectedFace == 3) {
+        Axis = Xaxis;
+    }
+    else if (selectedFace == 4 || selectedFace == 5) {
+        Axis = Yaxis;
+    }
+    
+    if(selectedFace == 0 || selectedFace == 1 || selectedFace == 4) {
+        turnDirection = direction;
+    }
+    else if(selectedFace == 2 || selectedFace == 3 || selectedFace == 5) {
+        turnDirection = -direction;
+    }
+    TotalRotation = 0;
+}
+
+void setSelectedFace(int face) {
+    if(TotalRotation >= 90) {
+        selectedFace = face;
+    }
+}
+
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
    
@@ -243,41 +293,123 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         case GLFW_KEY_ESCAPE: case GLFW_KEY_Q:
             exit( EXIT_SUCCESS );
             break;
-        case GLFW_KEY_K:
-            std::cout << model_views[0], "\n";
-            std::cout << model_views[1], "\n";
-            std::cout << model_views[2], "\n";
-            std::cout << model_views[3], "\n";
-            std::cout << model_views[4], "\n";
-            std::cout << model_views[5], "\n";
-            std::cout << model_views[6], "\n";
-            std::cout << model_views[7], "\n";
+        case GLFW_KEY_A: // 0 front, 1 right, 2 back, 3 left, 4 top, 5 bottom
+            setSelectedFace(0);
+            break;
+        case GLFW_KEY_S:
+            setSelectedFace(1);
+            break;
+        case GLFW_KEY_D:
+            setSelectedFace(2);
+            break;
+        case GLFW_KEY_Z:
+            setSelectedFace(3);
+            break;
+        case GLFW_KEY_X:
+            setSelectedFace(4);
+            break;
+        case GLFW_KEY_C:
+            setSelectedFace(5);
+            break;
+        case GLFW_KEY_LEFT:
+            if(TotalRotation >= 90) {
+                setFaces();
+                turnCube(1);
+            }
+            break;
+        case GLFW_KEY_RIGHT:
+            if(TotalRotation >= 90) {
+                setFaces();
+                turnCube(-1);
+            }
+            break;
     }
 }
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
-    // the following emulates the middle button via shift modifier key
-    
-    if ( action == GLFW_PRESS ) {
-        switch( button ) {
-            case GLFW_MOUSE_BUTTON_RIGHT:    Axis = Xaxis;  break;
-            //case GLFW_MOUSE_BUTTON_MIDDLE:  Axis = Yaxis;  break;
-            case GLFW_MOUSE_BUTTON_LEFT:   if (mods & GLFW_MOD_SHIFT) Axis = Yaxis;
-            else Axis = Zaxis;  break;
+    if ( action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_LEFT) { // this is from lecture, not implemented
+            //glDrawBuffer(GL_BACK); //back buffer is default thus no need
+            
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            //Render triangles with different id colors to back buffer
+            glUniform4f( Color, 0.0, 1.0, 0.0, 1.0 );
+            glDrawArrays( GL_TRIANGLES, 0, 3 );
+            glUniform4f( Color, 0.0, 0.0, 1.0, 1.0 );
+            glDrawArrays(GL_TRIANGLES, 3, 3);
+            glFlush(); //forces all drawing commands to be sent to the graphics card and executed immediately.
+            
+            double x, y;
+            glfwGetCursorPos(window, &x, &y);
+            int fb_width, fb_height;
+            glfwGetFramebufferSize(window, &fb_width, &fb_height);
+            int win_width, win_height;
+            glfwGetWindowSize(window, &win_width, &win_height);
+            
+            //Have to differentiate between window and frame buffer sizes
+            x*=(fb_width/win_width);
+            y*=(fb_height/win_height);
+            y = fb_height - y;
+                    
+            //glReadPixels reads from frame buffer, hence use frame buffer size
+            unsigned char pixel[4];
+            glReadPixels(x, y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixel);
+            if (pixel[0]==0 && pixel[1]==255 && pixel[2]==0) std::cout << "First triangle"<<std::endl;
+            else if (pixel[0]==0 && pixel[1]==0 && pixel[2]==255) std::cout << "Second triangle"<<std::endl;
+            else std::cout << "None"<<std::endl;
+            
+            std::cout << "R: " << (int)pixel[0] << std::endl;
+            std::cout << "G: " << (int)pixel[1] << std::endl;
+            std::cout << "B: " << (int)pixel[2] << std::endl;
+            std::cout << std::endl;
+            
+            //glfwSwapBuffers(window); //you can enable (and disable the other) this to display the triangles with their hidden id colors
+        }
+    if (button == GLFW_MOUSE_BUTTON_RIGHT) {
+        if (action == GLFW_PRESS)
+        {
+            rightMouseButtonPressed = true;
+            glfwGetCursorPos(window, &mouseStartX, &mouseStartY);
+        }
+        else if (action == GLFW_RELEASE)
+        {
+            rightMouseButtonPressed = false;
         }
     }
 }
 
-void
-update( void )
-{
+void rotateWithMouse(GLFWwindow* window) {
+    if(!rightMouseButtonPressed){
+        return;
+    }
+    glfwGetCursorPos(window, &mouseX, &mouseY);
     
-    // use this to have rotation around fixed axes
-    Theta[0] = Theta[1] = Theta[2] = 0.0;
-    Theta[Axis] = 1.0;
-
+    for(int i = 0; i < NumCubes; i++) {
+        model_views[i]=  getInverseGlobalView() * model_views[i];
+    }
+    
+    double deltaX = (mouseX - mouseStartX) / 2;
+    double deltaY = (mouseY - mouseStartY) / 2;
+    
+    angles[0] += deltaY;
+    angles[0] = fmod(angles[0], 360);
+    
+    if(angles[0] > 90 && angles[0] < 270){
+        angles[1] -= deltaX;
+        angles[1] = fmod(angles[1], 360);
+    } else {
+        angles[1] += deltaX;
+        angles[1] = fmod(angles[1], 360);
+    }
+    
+    for(int i = 0; i < NumCubes; i++) {
+        model_views[i]=  getGlobalView() * model_views[i];
+    }
+    
+    mouseStartX = mouseX;
+    mouseStartY = mouseY;
 }
+
 
 //---------------------------------------------------------------------
 //
@@ -319,7 +451,7 @@ main()
             previousTime = currentTime;
             update();
         }
-        
+        rotateWithMouse(window);
         display();
         glfwSwapBuffers(window);
         
