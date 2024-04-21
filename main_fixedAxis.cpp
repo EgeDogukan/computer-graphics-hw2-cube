@@ -91,6 +91,20 @@ double mouseStartY = 0.0;
 double mouseX = 0.0;
 double mouseY = 0.0;
 bool rightMouseButtonPressed = false;
+bool leftMouseButtonPressed = false;
+
+
+
+int highlightedFace = -1; // No face highlighted initially
+
+// The highlight color
+color4 highlightColor = color4(1.0, 1.0, 0.0, 1.0); // Yellow for highlighting
+
+// Function prototypes
+int pick(int x, int y);
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+
 
 
 mat4 getGlobalView() {
@@ -376,6 +390,14 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
             rightMouseButtonPressed = false;
         }
     }
+
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+        leftMouseButtonPressed = true;
+
+        glfwGetCursorPos(window, &mouseStartX, &mouseStartY);
+    } else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+        leftMouseButtonPressed = false;
+    }
 }
 
 void rotateWithMouse(GLFWwindow* window) {
@@ -410,6 +432,41 @@ void rotateWithMouse(GLFWwindow* window) {
     mouseStartY = mouseY;
 }
 
+// Add this function to convert screen coordinates to object coordinates and perform the picking
+int pick(int x, int y) {
+    // Placeholder for picking logic, should return the face index or -1
+    // You will need to implement this based on your camera setup
+    return -1;
+}
+
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
+    highlightedFace = pick(xpos, ypos); // Perform picking with the current mouse position
+}
+
+
+// Call this function in your main rendering loop to perform the blinking effect
+void applyBlinkingEffect(GLFWwindow* window) {
+    highlightedFace = 0;
+    setSelectedFace(0);
+
+    if(!leftMouseButtonPressed){
+        return;
+    }
+    glfwGetCursorPos(window, &mouseX, &mouseY);
+
+    static auto lastTime = std::chrono::high_resolution_clock::now();
+    auto currentTime = std::chrono::high_resolution_clock::now();
+    float time = std::chrono::duration<float>(currentTime - lastTime).count();
+
+    if (highlightedFace != -1) {
+        // Calculate the blinking intensity based on the elapsed time
+        float intensity = (sin(time * 3.14f * 2.0f) + 1.0f) * 0.5f; // Oscillates between 0 and 1
+        glUniform1f(glGetUniformLocation(program, "intensity"), intensity);
+    } else {
+        glUniform1f(glGetUniformLocation(program, "intensity"), 0.0f); // No blinking when no face is highlighted
+    }
+}
+
 
 //---------------------------------------------------------------------
 //
@@ -439,6 +496,7 @@ main()
 
     glfwSetKeyCallback(window, key_callback);
     glfwSetMouseButtonCallback(window, mouse_button_callback);
+
     
     init();
 
@@ -452,6 +510,7 @@ main()
             update();
         }
         rotateWithMouse(window);
+        applyBlinkingEffect(window); // Apply blinking effect
         display();
         glfwSwapBuffers(window);
         
