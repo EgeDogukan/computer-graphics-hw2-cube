@@ -403,7 +403,7 @@ void update()
             selectedFace = turns[turnCount-1][0];
             turnDirection = turns[turnCount-1][1];
             setFaces();
-            turnCube(-1);
+            turnCube(turnDirection);
             TotalRotation = 0;
             turnCount --;
         }
@@ -567,7 +567,7 @@ void randomCubeShuffle() {
 
         // Rotate the cube based on the random face and direction
         turns[i][0] = randomFace;
-        turns[i][1] = randomDirection;
+        turns[i][1] = randomDirection == 0 ? 1 : -1;
     }
 }
 
