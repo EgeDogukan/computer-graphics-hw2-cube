@@ -10,44 +10,172 @@ typedef vec4  point4;
 const int NumVertices = 36; //(6 faces)(2 triangles/face)(3 vertices/triangle)
 
 // Vertices of a unit cube centered at origin, sides aligned with axes
-point4 points[8] = {
-    point4( -0.49, -0.49,  0.49, 1.0 ),
-    point4( -0.49,  0.49,  0.49, 1.0 ),
-    point4(  0.49,  0.49,  0.49, 1.0 ),
-    point4(  0.49, -0.49,  0.49, 1.0 ),
-    point4( -0.49, -0.49, -0.49, 1.0 ),
-    point4( -0.49,  0.49, -0.49, 1.0 ),
-    point4(  0.49,  0.49, -0.49, 1.0 ),
-    point4(  0.49, -0.49, -0.49, 1.0 )
+point4 points[NumVertices] = {
+    // Front face (triangles)
+    point4(-0.49, -0.49, 0.49, 1.0),
+    point4(-0.49, 0.49, 0.49, 1.0),
+    point4(0.49, 0.49, 0.49, 1.0),
+
+    point4(-0.49, -0.49, 0.49, 1.0),
+    point4(0.49, 0.49, 0.49, 1.0),
+    point4(0.49, -0.49, 0.49, 1.0),
+
+    // Back face (triangles)
+    point4(-0.49, -0.49, -0.49, 1.0),
+    point4(-0.49, 0.49, -0.49, 1.0),
+    point4(0.49, 0.49, -0.49, 1.0),
+
+    point4(-0.49, -0.49, -0.49, 1.0),
+    point4(0.49, 0.49, -0.49, 1.0),
+    point4(0.49, -0.49, -0.49, 1.0),
+
+    // Left face (triangles)
+    point4(-0.49, -0.49, 0.49, 1.0),
+    point4(-0.49, -0.49, -0.49, 1.0),
+    point4(-0.49, 0.49, -0.49, 1.0),
+
+    point4(-0.49, -0.49, 0.49, 1.0),
+    point4(-0.49, 0.49, -0.49, 1.0),
+    point4(-0.49, 0.49, 0.49, 1.0),
+
+    // Right face (triangles)
+    point4(0.49, -0.49, 0.49, 1.0),
+    point4(0.49, -0.49, -0.49, 1.0),
+    point4(0.49, 0.49, -0.49, 1.0),
+
+    point4(0.49, -0.49, 0.49, 1.0),
+    point4(0.49, 0.49, -0.49, 1.0),
+    point4(0.49, 0.49, 0.49, 1.0),
+
+    // Top face (triangles)
+    point4(-0.49, 0.49, 0.49, 1.0),
+    point4(-0.49, 0.49, -0.49, 1.0),
+    point4(0.49, 0.49, -0.49, 1.0),
+
+    point4(-0.49, 0.49, 0.49, 1.0),
+    point4(0.49, 0.49, -0.49, 1.0),
+    point4(0.49, 0.49, 0.49, 1.0),
+
+    // Bottom face (triangles)
+    point4(-0.49, -0.49, 0.49, 1.0),
+    point4(-0.49, -0.49, -0.49, 1.0),
+    point4(0.49, -0.49, -0.49, 1.0),
+
+    point4(-0.49, -0.49, 0.49, 1.0),
+    point4(0.49, -0.49, -0.49, 1.0),
+    point4(0.49, -0.49, 0.49, 1.0)
 };
+
+point4 backPoints[NumVertices] = {
+    // Front face (triangles)
+    point4(-0.50, -0.50, 0.50, 1.0),
+    point4(-0.50, 0.50, 0.50, 1.0),
+    point4(0.50, 0.50, 0.50, 1.0),
+
+    point4(-0.50, -0.50, 0.50, 1.0),
+    point4(0.50, 0.50, 0.50, 1.0),
+    point4(0.50, -0.50, 0.50, 1.0),
+
+    // Back face (triangles)
+    point4(-0.50, -0.50, -0.50, 1.0),
+    point4(-0.50, 0.50, -0.50, 1.0),
+    point4(0.50, 0.50, -0.50, 1.0),
+
+    point4(-0.50, -0.50, -0.50, 1.0),
+    point4(0.50, 0.50, -0.50, 1.0),
+    point4(0.50, -0.50, -0.50, 1.0),
+
+    // Left face (triangles)
+    point4(-0.50, -0.50, 0.50, 1.0),
+    point4(-0.50, -0.50, -0.50, 1.0),
+    point4(-0.50, 0.50, -0.50, 1.0),
+
+    point4(-0.50, -0.50, 0.50, 1.0),
+    point4(-0.50, 0.50, -0.50, 1.0),
+    point4(-0.50, 0.50, 0.50, 1.0),
+
+    // Right face (triangles)
+    point4(0.50, -0.50, 0.50, 1.0),
+    point4(0.50, -0.50, -0.50, 1.0),
+    point4(0.50, 0.50, -0.50, 1.0),
+
+    point4(0.50, -0.50, 0.50, 1.0),
+    point4(0.50, 0.50, -0.50, 1.0),
+    point4(0.50, 0.50, 0.50, 1.0),
+
+    // Top face (triangles)
+    point4(-0.50, 0.50, 0.50, 1.0),
+    point4(-0.50, 0.50, -0.50, 1.0),
+    point4(0.50, 0.50, -0.50, 1.0),
+
+    point4(-0.50, 0.50, 0.50, 1.0),
+    point4(0.50, 0.50, -0.50, 1.0),
+    point4(0.50, 0.50, 0.50, 1.0),
+
+    // Bottom face (triangles)
+    point4(-0.50, -0.50, 0.50, 1.0),
+    point4(-0.50, -0.50, -0.50, 1.0),
+    point4(0.50, -0.50, -0.50, 1.0),
+
+    point4(-0.50, -0.50, 0.50, 1.0),
+    point4(0.50, -0.50, -0.50, 1.0),
+    point4(0.50, -0.50, 0.50, 1.0)
+};
+
+
 
 // RGBA olors
 color4 colors[NumVertices] = {
-    color4(1.0, 0.0, 0.0, 1.0),  // red
-    color4(1.0, 0.0, 0.0, 1.0),  // red
-    color4(1.0, 0.0, 0.0, 1.0),  // red
-    color4(1.0, 0.0, 0.0, 1.0),  // red
-    color4(0.0, 1.0, 0.0, 1.0),  // green
-    color4(0.0, 1.0, 0.0, 1.0),  // green
-    color4(0.0, 1.0, 0.0, 1.0),  // green
-    color4(0.0, 1.0, 0.0, 1.0),  // green
-    color4(0.0, 0.0, 1.0, 1.0),  // blue
-    color4(0.0, 0.0, 1.0, 1.0),  // blue
-    color4(0.0, 0.0, 1.0, 1.0),  // blue
-    color4(0.0, 0.0, 1.0, 1.0),  // blue
-    color4(1.0, 1.0, 1.0, 1.0),  // white
-    color4(1.0, 1.0, 1.0, 1.0),  // white
-    color4(1.0, 1.0, 1.0, 1.0),  // white
-    color4(1.0, 1.0, 1.0, 1.0),  // white
-    color4(1.0, 1.0, 0.0, 1.0),  // yellow
-    color4(1.0, 1.0, 0.0, 1.0),  // yellow
-    color4(1.0, 1.0, 0.0, 1.0),  // yellow
-    color4(1.0, 1.0, 0.0, 1.0),  // yellow
-    color4(1.0, 0.647, 0.0, 1.0),  // orange
-    color4(1.0, 0.647, 0.0, 1.0),  // orange
-    color4(1.0, 0.647, 0.0, 1.0),  // orange
-    color4(1.0, 0.647, 0.0, 1.0),  // orange
+    color4(1.0, 0.0, 0.0, 1.0),  // Front face (red)
+    color4(1.0, 0.0, 0.0, 1.0),
+    color4(1.0, 0.0, 0.0, 1.0),
+    
+    color4(1.0, 0.0, 0.0, 1.0),  // Front face (red)
+    color4(1.0, 0.0, 0.0, 1.0),
+    color4(1.0, 0.0, 0.0, 1.0),
+
+    color4(0.0, 1.0, 0.0, 1.0),  // Back face (green)
+    color4(0.0, 1.0, 0.0, 1.0),
+    color4(0.0, 1.0, 0.0, 1.0),
+    
+    color4(0.0, 1.0, 0.0, 1.0),  // Back face (green)
+    color4(0.0, 1.0, 0.0, 1.0),
+    color4(0.0, 1.0, 0.0, 1.0),
+
+    color4(0.0, 0.0, 1.0, 1.0),  // Left face (blue)
+    color4(0.0, 0.0, 1.0, 1.0),
+    color4(0.0, 0.0, 1.0, 1.0),
+    
+    color4(0.0, 0.0, 1.0, 1.0),  // Left face (blue)
+    color4(0.0, 0.0, 1.0, 1.0),
+    color4(0.0, 0.0, 1.0, 1.0),
+
+    color4(1.0, 1.0, 0.0, 1.0),  // Right face (yellow)
+    color4(1.0, 1.0, 0.0, 1.0),
+    color4(1.0, 1.0, 0.0, 1.0),
+    
+    color4(1.0, 1.0, 0.0, 1.0),  // Right face (yellow)
+    color4(1.0, 1.0, 0.0, 1.0),
+    color4(1.0, 1.0, 0.0, 1.0),
+
+    color4(1.0, 0.647, 0.0, 1.0),  // Top face (orange)
+    color4(1.0, 0.647, 0.0, 1.0),
+    color4(1.0, 0.647, 0.0, 1.0),
+    
+    color4(1.0, 0.647, 0.0, 1.0),  // Top face (orange)
+    color4(1.0, 0.647, 0.0, 1.0),
+    color4(1.0, 0.647, 0.0, 1.0),
+
+    color4(1.0, 1.0, 1.0, 1.0),  // Bottom face (white)
+    color4(1.0, 1.0, 1.0, 1.0),
+    color4(1.0, 1.0, 1.0, 1.0),
+    
+    color4(1.0, 1.0, 1.0, 1.0),  // Bottom face (white)
+    color4(1.0, 1.0, 1.0, 1.0),
+    color4(1.0, 1.0, 1.0, 1.0),
+
 };
+
 
 // Array of rotation angles (in degrees) for each coordinate axis
 enum { Xaxis = 0, Yaxis = 1, Zaxis = 2, NumAxes = 3 };
@@ -58,6 +186,7 @@ GLfloat  Theta[NumAxes] = { 0.0, 0.0, 0.0 };
 GLuint  ModelView, Projection;
 const int NumCubes = 8;
 mat4 model_views[NumCubes];
+mat4 picking_model_views[NumCubes];
 double angles[3] = {0, 45, 45};
 
 int faces[6][4];
@@ -127,6 +256,9 @@ void setFaces() {
     }
 }
 
+int turnCount = 20;
+int turns[20][2];
+
 GLuint program;
 GLuint Color;
 
@@ -156,27 +288,15 @@ init()
     GLuint vao;
     glGenVertexArrays( 1, &vao );
     glBindVertexArray( vao );
-    
-    GLuint cube_indices[] = {
-            0, 1, 2,
-            2, 3, 0,
-            1, 5, 6,
-            6, 2, 1,
-            7, 6, 5,
-            5, 4, 7,
-            4, 0, 3,
-            3, 7, 4,
-            4, 5, 1,
-            1, 0, 4,
-            3, 2, 6,
-            6, 7, 3
-        };
+
     
     // Create and initialize an index buffer object
     GLuint index_buffer;
     glGenBuffers(1, &index_buffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cube_indices), cube_indices, GL_STATIC_DRAW);
+    glBufferData( GL_ARRAY_BUFFER, sizeof(points) + sizeof(colors), NULL, GL_STATIC_DRAW );
+    glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(points), points );
+    glBufferSubData( GL_ARRAY_BUFFER, sizeof(points), sizeof(colors), colors );
 
     // set up vertex arrays
     GLuint vPosition = glGetAttribLocation( program, "vPosition" );
@@ -185,7 +305,7 @@ init()
 
     GLuint vColor = glGetAttribLocation( program, "vColor" );
     glEnableVertexAttribArray( vColor );
-    glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 4, BUFFER_OFFSET(sizeof(points)) );
+    glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(points)) );
 
     // Retrieve transformation uniform variable locations
     ModelView = glGetUniformLocation( program, "ModelView" );
@@ -211,7 +331,7 @@ init()
     setFaces();
     
     glEnable( GL_DEPTH_TEST );
-    glClearColor( 1.0, 1.0, 1.0, 1.0 );
+    glClearColor(0.7, 0.7, 1.0, 1.0);
 }
 
 
@@ -240,24 +360,10 @@ display(void)
     
     for(int i = 0; i < NumCubes; i++) {
         glUniformMatrix4fv( ModelView, 1, GL_TRUE, model_views[i] );
-        glDrawElements(GL_TRIANGLES, NumVertices, GL_UNSIGNED_INT, 0);
+        glDrawArrays(GL_TRIANGLES,0, NumVertices);
     }
     
     glFlush();
-}
-
-void update()
-{
-    if (TotalRotation < 90.0) {
-        // use this to have rotation around fixed axes
-        Theta[0] = Theta[1] = Theta[2] = 0.0;
-        Theta[Axis] = 1.5 * turnDirection;
-        
-        for(int index: faces[selectedFace]) {
-            model_views[index] = getGlobalView() * RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] ) * RotateZ( Theta[Zaxis] ) * getInverseGlobalView() * model_views[index];
-        }
-        TotalRotation += 1.5;
-    }
 }
 
 void turnCube(int direction) {
@@ -279,6 +385,31 @@ void turnCube(int direction) {
     }
     TotalRotation = 0;
 }
+
+void update()
+{
+    if (TotalRotation < 90.0) {
+        
+        // use this to have rotation around fixed axes
+        Theta[0] = Theta[1] = Theta[2] = 0.0;
+        Theta[Axis] = 1.5 * turnDirection;
+        
+        for(int index: faces[selectedFace]) {
+            model_views[index] = getGlobalView() * RotateX( Theta[Xaxis] ) * RotateY( Theta[Yaxis] ) * RotateZ( Theta[Zaxis] ) * getInverseGlobalView() * model_views[index];
+        }
+        TotalRotation += 1.5;
+    } else {
+        if(turnCount > 0){
+            selectedFace = turns[turnCount-1][0];
+            turnDirection = turns[turnCount-1][1];
+            setFaces();
+            turnCube(-1);
+            TotalRotation = 0;
+            turnCount --;
+        }
+    }
+}
+
 
 void setSelectedFace(int face) {
     if(TotalRotation >= 90) {
@@ -326,6 +457,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     }
 }
 
+
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
     if ( action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_LEFT) { // this is from lecture, not implemented
@@ -333,10 +465,16 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
             
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             //Render triangles with different id colors to back buffer
-            glUniform4f( Color, 0.0, 1.0, 0.0, 1.0 );
-            glDrawArrays( GL_TRIANGLES, 0, 3 );
-            glUniform4f( Color, 0.0, 0.0, 1.0, 1.0 );
-            glDrawArrays(GL_TRIANGLES, 3, 3);
+            glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(points), backPoints );
+            for(int i = 0; i < NumCubes; i++) {
+                picking_model_views[i]=  getGlobalView() * Translate(positionValues[i][0],positionValues[i][1],positionValues[i][2]);
+            }
+            for(int i = 0; i < NumCubes; i++) {
+                glUniformMatrix4fv( ModelView, 1, GL_TRUE, picking_model_views[i] );
+                glDrawArrays(GL_TRIANGLES,0, NumVertices);
+            }
+            glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(points), points );
+            
             glFlush(); //forces all drawing commands to be sent to the graphics card and executed immediately.
             
             double x, y;
@@ -354,15 +492,25 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
             //glReadPixels reads from frame buffer, hence use frame buffer size
             unsigned char pixel[4];
             glReadPixels(x, y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixel);
-            if (pixel[0]==0 && pixel[1]==255 && pixel[2]==0) std::cout << "First triangle"<<std::endl;
-            else if (pixel[0]==0 && pixel[1]==0 && pixel[2]==255) std::cout << "Second triangle"<<std::endl;
-            else std::cout << "None"<<std::endl;
-            
-            std::cout << "R: " << (int)pixel[0] << std::endl;
-            std::cout << "G: " << (int)pixel[1] << std::endl;
-            std::cout << "B: " << (int)pixel[2] << std::endl;
-            std::cout << std::endl;
-            
+            if (int(pixel[0]) == 255 && int(pixel[1]) == 0 && int(pixel[2]) == 0){
+                selectedFace = 0;
+            }
+            if (int(pixel[0]) == 255 && int(pixel[1]) == 255 && int(pixel[2]) == 0){
+                selectedFace = 1;
+            }
+            if (int(pixel[0]) == 0 && int(pixel[1]) == 255 && int(pixel[2]) == 0){
+                selectedFace = 2;
+            }
+            if (int(pixel[0]) == 0 && int(pixel[1]) == 0 && int(pixel[2]) == 255){
+                selectedFace = 3;
+            }
+            if (int(pixel[0]) == 255 && int(pixel[1]) == 165 && int(pixel[2]) == 0){
+                selectedFace = 4;
+            }
+            if (int(pixel[0]) == 255 && int(pixel[1]) == 255 && int(pixel[2]) == 255){
+                selectedFace = 5;
+            }
+
             //glfwSwapBuffers(window); //you can enable (and disable the other) this to display the triangles with their hidden id colors
         }
     if (button == GLFW_MOUSE_BUTTON_RIGHT) {
@@ -410,6 +558,19 @@ void rotateWithMouse(GLFWwindow* window) {
     mouseStartY = mouseY;
 }
 
+void randomCubeShuffle() {
+    srand(time(NULL)); // Initialize random seed
+
+    for (int i = 0; i < 20; i++) {
+        int randomFace = rand() % 6;     // Randomly select a face (0-5)
+        int randomDirection = rand() % 2; // Randomly select a direction (0 or 1)
+
+        // Rotate the cube based on the random face and direction
+        turns[i][0] = randomFace;
+        turns[i][1] = randomDirection;
+    }
+}
+
 
 //---------------------------------------------------------------------
 //
@@ -441,13 +602,15 @@ main()
     glfwSetMouseButtonCallback(window, mouse_button_callback);
     
     init();
+    randomCubeShuffle();
 
     double frameRate = 60, currentTime, previousTime = 0.0;
     while (!glfwWindowShouldClose(window))
     {
         glfwPollEvents();
         currentTime = glfwGetTime();
-        if (currentTime - previousTime >= 1/frameRate){
+        
+        if (currentTime - previousTime >= 0.1/frameRate){
             previousTime = currentTime;
             update();
         }
