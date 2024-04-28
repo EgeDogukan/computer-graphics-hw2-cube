@@ -427,9 +427,9 @@ void printHelp() {
               << "  [X] - Select the top face of the cube\n"
               << "  [C] - Select the bottom face of the cube\n"
               << "  [LEFT CLICK] - Select the clicked face of the cube\n"
-              << "  [LEFT ARROW] - Rotate the selected face clockwise\n"
-              << "  [RIGHT ARROW] - Rotate the selected face counterclockwise\n"
-              << "  [RIGHT CLICK] - Mouse drag with right button, rotate the entire cube\n";
+              << "  [RIGHT CLICK] - Mouse drag with right button, rotate the entire cube\n"
+              << "  [LEFT ARROW] - Rotate the selected face counterclockwise\n"
+              << "  [RIGHT ARROW] - Rotate the selected face clockwise\n";
 }
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -513,22 +513,22 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
             unsigned char pixel[4];
             glReadPixels(x, y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixel);
             if (int(pixel[0]) == 255 && int(pixel[1]) == 0 && int(pixel[2]) == 0){
-                selectedFace = 0;
+                setSelectedFace(0);
             }
             if (int(pixel[0]) == 255 && int(pixel[1]) == 255 && int(pixel[2]) == 0){
-                selectedFace = 1;
+                setSelectedFace(1);
             }
             if (int(pixel[0]) == 0 && int(pixel[1]) == 255 && int(pixel[2]) == 0){
-                selectedFace = 2;
+                setSelectedFace(2);
             }
             if (int(pixel[0]) == 0 && int(pixel[1]) == 0 && int(pixel[2]) == 255){
-                selectedFace = 3;
+                setSelectedFace(3);
             }
             if (int(pixel[0]) == 255 && int(pixel[1]) == 165 && int(pixel[2]) == 0){
-                selectedFace = 4;
+                setSelectedFace(4);
             }
             if (int(pixel[0]) == 255 && int(pixel[1]) == 255 && int(pixel[2]) == 255){
-                selectedFace = 5;
+                setSelectedFace(5);
             }
 
             //glfwSwapBuffers(window); //you can enable (and disable the other) this to display the triangles with their hidden id colors
