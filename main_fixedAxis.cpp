@@ -417,43 +417,63 @@ void setSelectedFace(int face) {
     }
 }
 
+void printHelp() {
+    std::cout << "Help Menu:\n"
+              << "  [ESC, Q] - Quit the application\n"
+              << "  [A] - Select the front face of the cube\n"
+              << "  [S] - Select the right face of the cube\n"
+              << "  [D] - Select the back face of the cube\n"
+              << "  [Z] - Select the left face of the cube\n"
+              << "  [X] - Select the top face of the cube\n"
+              << "  [C] - Select the bottom face of the cube\n"
+              << "  [LEFT CLICK] - Select the clicked face of the cube\n"
+              << "  [LEFT ARROW] - Rotate the selected face clockwise\n"
+              << "  [RIGHT ARROW] - Rotate the selected face counterclockwise\n"
+              << "  [RIGHT CLICK] - Mouse drag with right button, rotate the entire cube\n";
+}
+
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-   
-    switch( key ) {
-        case GLFW_KEY_ESCAPE: case GLFW_KEY_Q:
-            exit( EXIT_SUCCESS );
-            break;
-        case GLFW_KEY_A: // 0 front, 1 right, 2 back, 3 left, 4 top, 5 bottom
-            setSelectedFace(0);
-            break;
-        case GLFW_KEY_S:
-            setSelectedFace(1);
-            break;
-        case GLFW_KEY_D:
-            setSelectedFace(2);
-            break;
-        case GLFW_KEY_Z:
-            setSelectedFace(3);
-            break;
-        case GLFW_KEY_X:
-            setSelectedFace(4);
-            break;
-        case GLFW_KEY_C:
-            setSelectedFace(5);
-            break;
-        case GLFW_KEY_LEFT:
-            if(TotalRotation >= 90) {
-                setFaces();
-                turnCube(1);
-            }
-            break;
-        case GLFW_KEY_RIGHT:
-            if(TotalRotation >= 90) {
-                setFaces();
-                turnCube(-1);
-            }
-            break;
+
+if (action == GLFW_PRESS) {   
+        switch( key ) {
+            case GLFW_KEY_ESCAPE: case GLFW_KEY_Q:
+                exit( EXIT_SUCCESS );
+                break;
+            case GLFW_KEY_A: // 0 front, 1 right, 2 back, 3 left, 4 top, 5 bottom
+                setSelectedFace(0);
+                break;
+            case GLFW_KEY_S:
+                setSelectedFace(1);
+                break;
+            case GLFW_KEY_D:
+                setSelectedFace(2);
+                break;
+            case GLFW_KEY_Z:
+                setSelectedFace(3);
+                break;
+            case GLFW_KEY_X:
+                setSelectedFace(4);
+                break;
+            case GLFW_KEY_C:
+                setSelectedFace(5);
+                break;
+            case GLFW_KEY_LEFT:
+                if(TotalRotation >= 90) {
+                    setFaces();
+                    turnCube(1);
+                }
+                break;
+            case GLFW_KEY_RIGHT:
+                if(TotalRotation >= 90) {
+                    setFaces();
+                    turnCube(-1);
+                }
+                break;
+            case GLFW_KEY_H:
+                    printHelp();
+                    break;
+        }
     }
 }
 
